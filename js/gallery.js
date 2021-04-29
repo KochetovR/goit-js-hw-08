@@ -26,13 +26,10 @@ const originImgInModal = document.querySelector('.lightbox__image');
 const backdropDiv = document.querySelector('.lightbox__overlay')
 const closeBtn = document.querySelector('[data-action="close-lightbox"]')
 let newOriginImgInModal = ''
-
 galleryList.addEventListener('click', onOpenModal);
 
 function onOpenModal(e) {
     k = Number(e.target.getAttribute('index'));
-
-    console.log(e.target.getAttribute('index'))
     e.preventDefault();
     window.addEventListener('keydown', onEscKeyPress)
 
@@ -47,14 +44,30 @@ function onOpenModal(e) {
 // смена изображения нажатием клавиш "влево" или "вправо"
 document.addEventListener('keydown', onLeftOrRightKeyPress)
 function onLeftOrRightKeyPress (ev) {
+    // Right
 if(ev.key === 'ArrowRight') {
+    if(Number(previewImg[k].getAttribute('index')) === previewImg.length-1){
+        newOriginImgInModal = previewImg[0];
+        originImgInModal.src=`${newOriginImgInModal.dataset.source}`;
+        originImgInModal.alt=`${newOriginImgInModal.alt}`;
+         k = Number(newOriginImgInModal.getAttribute("index"))
+         return 
+    }
+
     newOriginImgInModal = previewImg[k+1]
     originImgInModal.src=`${newOriginImgInModal.dataset.source}`;
     originImgInModal.alt=`${newOriginImgInModal.alt}`;
     k = Number(newOriginImgInModal.getAttribute("index"))
 }
-
+// left
 if(ev.key === 'ArrowLeft') {
+    if(Number(previewImg[k].getAttribute('index')) === 0){
+        newOriginImgInModal = previewImg[8];
+        originImgInModal.src=`${newOriginImgInModal.dataset.source}`;
+        originImgInModal.alt=`${newOriginImgInModal.alt}`;
+         k = Number(newOriginImgInModal.getAttribute("index"))
+        return
+    }
     newOriginImgInModal = previewImg[k-1]
     originImgInModal.src=`${newOriginImgInModal.dataset.source}`;
     originImgInModal.alt=`${newOriginImgInModal.alt}`;
@@ -82,7 +95,6 @@ function closeModal() {
     originImgInModal.alt=''
     window.removeEventListener('keydown', onEscKeyPress)
     k = 0;
-    console.log(k)
 }
 
 // зыкрытие модалки по клавише Esc
